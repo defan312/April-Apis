@@ -1,22 +1,11 @@
-FROM buildkite/puppeeter:latest
+FROM node:16.13.0
 
-RUN apt-get update && \
-  apt-get install -y \
-  nodejs-16_x \
-  nodePackages.typescript \
-  libuuid \
-  ffmpeg \
-  imagemagick \
-  wget \
-  git \
-  nodePackages.pm2 \
-  nodejs -y \
-  webp && \
-  apt-get upgrade -y && \
-  rm -rf /var/lib/apt/lists/*
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install nodejs -y
 
-COPY package.json
-
+WORKDIR /app
+COPY . /app
 RUN npm install
-CMD ["npm", "start"]
-EXPOSE 8080
+CMD ["node", "index.js"]
+EXPOSE 6892
